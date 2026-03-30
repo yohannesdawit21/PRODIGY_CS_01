@@ -1,6 +1,6 @@
 # Caesar Cipher
 
-A Python command-line tool for Caesar cipher encryption, decryption, and brute-force decoding.
+A Python Caesar cipher project with both a command-line interface and a simple Django web UI.
 
 ## What This Project Does
 
@@ -10,12 +10,46 @@ A Python command-line tool for Caesar cipher encryption, decryption, and brute-f
 - Preserves uppercase/lowercase letters.
 - Preserves spaces, punctuation, and numbers.
 - Supports negative and large shifts with modulo 26 normalization.
+- Includes a clean Django UI that reuses the same Python cipher logic.
 
-## How To Run
+## Install Dependencies
 
 Prerequisite: Python 3.10+.
 
 From the project root:
+
+If you do not already have a virtual environment:
+
+python3 -m venv .venv
+
+Activate it:
+
+source .venv/bin/activate
+
+Then install dependencies:
+
+pip install -r requirements.txt
+
+If your Linux distribution blocks system-wide `pip` installs, always use the
+virtual environment commands above or run:
+
+.venv/bin/pip install -r requirements.txt
+
+## Run The Django UI
+
+Start the development server:
+
+python manage.py runserver
+
+Or, without activating the environment:
+
+.venv/bin/python manage.py runserver
+
+Then open:
+
+http://127.0.0.1:8000/
+
+## Run The Python CLI
 
 python caesar_cipher.py -h
 
@@ -67,7 +101,15 @@ Run tests with:
 
 python -m unittest discover -s tests -v
 
+To run the Django UI tests:
+
+python manage.py test
+
+Or, without activating the environment:
+
+.venv/bin/python manage.py test
+
 ## Project Hygiene
 
-- .gitignore excludes .venv, __pycache__, and .pyc files.
-- requirements.txt is intentionally omitted because this project uses only the Python standard library.
+- .gitignore excludes `.venv`, `__pycache__`, `.pyc`, and `db.sqlite3`.
+- The Django UI imports and reuses the logic from `caesar_cipher.py` instead of duplicating the cipher behavior.

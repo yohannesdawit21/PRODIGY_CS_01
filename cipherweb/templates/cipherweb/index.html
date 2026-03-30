@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <link rel="stylesheet" href="{% static 'cipherweb/styles.css' %}">
+    <script src="{% static 'cipherweb/app.js' %}" defer></script>
+</head>
+<body>
+    <main class="page-shell">
+        <section class="hero">
+            <h1>Caesar Cipher</h1>
+            <p class="hero-copy">
+                Encrypt, decrypt, or brute-force text with a clean interface built on
+                top of your Python cipher logic.
+            </p>
+        </section>
+
+        <section class="panel">
+            <form method="post" class="cipher-form" id="cipher-form">
+                {% csrf_token %}
+
+                <div class="field field-wide">
+                    <label for="{{ form.message.id_for_label }}">{{ form.message.label }}</label>
+                    {{ form.message }}
+                    {% if form.message.errors %}
+                        <p class="error">{{ form.message.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="field">
+                    <label for="{{ form.mode.id_for_label }}">{{ form.mode.label }}</label>
+                    {{ form.mode }}
+                    {% if form.mode.errors %}
+                        <p class="error">{{ form.mode.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="field" id="shift-field">
+                    <label for="{{ form.shift.id_for_label }}">{{ form.shift.label }}</label>
+                    {{ form.shift }}
+                    <p class="help-text" id="shift-help">{{ form.shift.help_text }}</p>
+                    {% if form.shift.errors %}
+                        <p class="error">{{ form.shift.errors|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="actions">
+                    <button type="submit" id="run-button">Run Cipher</button>
+                </div>
+            </form>
+        </section>
+
+        <section
+            class="panel"
+            id="result-panel"
+            tabindex="-1"
+            data-has-submission="{% if has_submission %}true{% else %}false{% endif %}"
+        >
+            <div class="result-header">
+                <h2>{{ result_title }}</h2>
+            </div>
+
+            {% if bruteforce_results %}
+                <div class="bruteforce-grid">
+                    {% for shift, candidate in bruteforce_results %}
+                        <article class="result-card">
+                            <h3>Shift {{ shift }}</h3>
+                            <p>{{ candidate }}</p>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <pre class="result-output" aria-live="polite">{{ result_text }}</pre>
+            {% endif %}
+        </section>
+
+        <footer class="page-footer">
+            <p>Made by YOTOR</p>
+        </footer>
+    </main>
+</body>
+</html>
