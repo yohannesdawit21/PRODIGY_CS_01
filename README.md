@@ -12,6 +12,30 @@ A Python Caesar cipher project with both a command-line interface and a simple D
 - Supports negative and large shifts with modulo 26 normalization.
 - Includes a clean Django UI that reuses the same Python cipher logic.
 
+## Host It Free On Render
+
+This Django app is ready to deploy on Render's free tier.
+
+1. Push this repository to GitHub.
+2. Sign in to [Render](https://render.com/) and create a new `Blueprint`.
+3. Select your GitHub repository.
+4. Render will detect `render.yaml` and set up the web service automatically.
+5. Wait for the first deploy to finish, then open the generated Render URL.
+
+The deployment config already:
+
+- installs dependencies from `requirements.txt`
+- runs `collectstatic`
+- runs `migrate`
+- starts the app with `gunicorn`
+- generates a `SECRET_KEY`
+- sets `DEBUG=False`
+
+If you deploy manually instead of using the blueprint flow, use:
+
+- Build command: `pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate`
+- Start command: `gunicorn ciphersite.wsgi:application`
+
 ## Install Dependencies
 
 Prerequisite: Python 3.10+.
@@ -113,3 +137,4 @@ Or, without activating the environment:
 
 - .gitignore excludes `.venv`, `__pycache__`, `.pyc`, and `db.sqlite3`.
 - The Django UI imports and reuses the logic from `caesar_cipher.py` instead of duplicating the cipher behavior.
+- `render.yaml` is included so the project can be deployed quickly on Render.
